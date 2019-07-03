@@ -75,7 +75,17 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="Ichannel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdin_channel.cpp" />
+    <ClCompile Include="stdou_channel.cpp" />
+    <ClCompile Include="zinxkernel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ichannel.h" />
+    <ClInclude Include="stdin_channel.h" />
+    <ClInclude Include="stdou_channel.h" />
+    <ClInclude Include="zinxkernel.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
