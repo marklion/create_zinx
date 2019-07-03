@@ -48,7 +48,7 @@ bool FIFO_channel::init()
 	{
 		flag = O_WRONLY;
 	}
-	int fd = open(fifo_name.c_str(), flag);
+	int fd = open(fifo_name.c_str(), flag|O_NONBLOCK);
 	if (fd >= 0)
 	{
 		m_fd = fd;
