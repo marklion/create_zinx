@@ -31,3 +31,12 @@ int stdou_channel::GetFd()
 void stdou_channel::data_process(std::string _input)
 {
 }
+
+bool stdou_channel::init()
+{
+	return true;
+}
+
+void stdou_channel::fini()
+{
+}

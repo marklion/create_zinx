@@ -1,14 +1,18 @@
 #pragma once
-#include <string>
 #include "Ichannel.h"
-#include "stdou_channel.h"
-class stdin_channel:public Ichannel
+#include <string>
+
+class FIFO_channel :
+	public Ichannel
 {
-	
+	std::string fifo_name;
+	int m_fd = -1;
+	bool bIsRead = true;
+
 public:
-	stdin_channel();
-	virtual ~stdin_channel();
-	stdou_channel *m_out = NULL;
+	FIFO_channel *m_out = NULL;
+	FIFO_channel(std::string _file, bool _isRead);
+	virtual ~FIFO_channel();
 
 	// Í¨¹ý Ichannel ¼Ì³Ð
 	virtual std::string ReadFd() override;

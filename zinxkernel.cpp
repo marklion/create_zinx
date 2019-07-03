@@ -64,18 +64,21 @@ void zinxkernel::run()
 
 void zinxkernel::AddChannel(Ichannel * _pChannel)
 {
-	//将参数和文件描述符0关联起来（epoll_ctl）
+	if (true == _pChannel->init())
+	{
+		//将参数和文件描述符0关联起来（epoll_ctl）
+		struct epoll_event stEvent;
+		stEvent.events = EPOLLIN;
+		stEvent.data.ptr = _pChannel;
 
-	struct epoll_event stEvent;
-	stEvent.events = EPOLLIN;
-	stEvent.data.ptr = _pChannel;
-
-	epoll_ctl(m_epollFd, EPOLL_CTL_ADD, _pChannel->GetFd(), &stEvent);
+		epoll_ctl(m_epollFd, EPOLL_CTL_ADD, _pChannel->GetFd(), &stEvent);
+	}
 }
 
 void zinxkernel::DelChannel(Ichannel * _pChannel)
 {
 	epoll_ctl(m_epollFd, EPOLL_CTL_DEL, _pChannel->GetFd(), NULL);
+	_pChannel->fini();
 }
 
 void zinxkernel::ModChannel_AddOut(Ichannel * _pChannel)

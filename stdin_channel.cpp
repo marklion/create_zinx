@@ -26,6 +26,15 @@ void stdin_channel::data_process(std::string _input)
 	m_out->data_sendout(_input);
 }
 
+bool stdin_channel::init()
+{
+	return true;
+}
+
+void stdin_channel::fini()
+{
+}
+
 std::string stdin_channel::ReadFd()
 {
 	std::string ret;

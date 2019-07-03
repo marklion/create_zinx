@@ -1,6 +1,7 @@
 #include <iostream>
 #include "zinxkernel.h"
 #include "stdin_channel.h"
+#include "FIFO_channel.h"
 
 using namespace std;
 
@@ -13,5 +14,12 @@ int main()
 	zinxkernel &kernel = zinxkernel::GetInstance();
 	kernel.AddChannel(&in_channel);
 	kernel.AddChannel(&out_channel);
+
+	FIFO_channel fifo_input("input", true);
+	FIFO_channel fifo_output("output", false);
+	fifo_input.m_out = &fifo_output;
+	kernel.AddChannel(&fifo_input);
+	kernel.AddChannel(&fifo_output);
+
 	kernel.run();
 }

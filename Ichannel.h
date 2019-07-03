@@ -7,6 +7,8 @@ class Ichannel
 public:
 	Ichannel();
 	virtual ~Ichannel();
+	virtual bool init() = 0;
+	virtual void fini() = 0;
 	virtual std::string ReadFd() = 0;
 	virtual void WriteFd(std::string _output) = 0;
 	virtual int GetFd() = 0;
