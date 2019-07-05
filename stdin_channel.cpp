@@ -22,8 +22,8 @@ int stdin_channel::GetFd()
 
 void stdin_channel::data_process(std::string _input)
 {
-	//将数据回显到标准输出--->调用标准输出通道对象的sendout函数
-	m_out->data_sendout(_input);
+	//将数据交给process_func类处理
+	m_proc->DataProcess(_input);
 }
 
 bool stdin_channel::init()

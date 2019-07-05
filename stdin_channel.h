@@ -2,13 +2,15 @@
 #include <string>
 #include "Ichannel.h"
 #include "stdou_channel.h"
+#include "ProcessFunc.h"
+
 class stdin_channel:public Ichannel
 {
 	
 public:
 	stdin_channel();
 	virtual ~stdin_channel();
-	stdou_channel *m_out = NULL;
+	ProcessFunc *m_proc = NULL;
 
 	// Í¨¹ý Ichannel ¼Ì³Ð
 	virtual std::string ReadFd() override;

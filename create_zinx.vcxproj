@@ -78,15 +78,19 @@
     <ClCompile Include="FIFO_channel.cpp" />
     <ClCompile Include="Ichannel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProcessFunc.cpp" />
     <ClCompile Include="stdin_channel.cpp" />
     <ClCompile Include="stdou_channel.cpp" />
+    <ClCompile Include="ZinxHandler.cpp" />
     <ClCompile Include="zinxkernel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FIFO_channel.h" />
     <ClInclude Include="Ichannel.h" />
+    <ClInclude Include="ProcessFunc.h" />
     <ClInclude Include="stdin_channel.h" />
     <ClInclude Include="stdou_channel.h" />
+    <ClInclude Include="ZinxHandler.h" />
     <ClInclude Include="zinxkernel.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
