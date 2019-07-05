@@ -34,11 +34,6 @@ int FIFO_channel::GetFd()
 	return m_fd;
 }
 
-void FIFO_channel::data_process(std::string _input)
-{
-	m_out->data_sendout(_input);
-}
-
 bool FIFO_channel::init()
 {
 	bool bRet = false;
@@ -63,4 +58,9 @@ void FIFO_channel::fini()
 	{
 		close(m_fd);
 	}
+}
+
+ZinxHandler * FIFO_channel::GetInputNextStage(ByteMsg * _byte)
+{
+	return nullptr;
 }

@@ -85,7 +85,7 @@ void test_chain()
 
 int main()
 {
- test_chain();
+ //test_chain();
 
 	stdin_channel in_channel;
 	stdou_channel out_channel;
@@ -97,12 +97,6 @@ int main()
 	zinxkernel &kernel = zinxkernel::GetInstance();
 	kernel.AddChannel(&in_channel);
 	kernel.AddChannel(&out_channel);
-
-	FIFO_channel fifo_input("input", true);
-	FIFO_channel fifo_output("output", false);
-	fifo_input.m_out = &fifo_output;
-	kernel.AddChannel(&fifo_input);
-	kernel.AddChannel(&fifo_output);
 
 	kernel.run();
 }

@@ -28,9 +28,6 @@ int stdou_channel::GetFd()
 	return 1;
 }
 
-void stdou_channel::data_process(std::string _input)
-{
-}
 
 bool stdou_channel::init()
 {
@@ -39,4 +36,9 @@ bool stdou_channel::init()
 
 void stdou_channel::fini()
 {
+}
+
+ZinxHandler * stdou_channel::GetInputNextStage(ByteMsg * _byte)
+{
+	return nullptr;
 }

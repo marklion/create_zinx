@@ -1,5 +1,6 @@
 #include "ProcessFunc.h"
 #include <algorithm>
+#include "zinxkernel.h"
 
 using namespace std;
 
@@ -12,28 +13,25 @@ ProcessFunc::~ProcessFunc()
 {
 }
 
-void ProcessFunc::DataProcess(std::string _input)
+ZinxMsg * ProcessFunc::internel_handle(ZinxMsg * _inputMsg)
 {
-	//参数中第一个字母是小写字母则转大写输出
-	if (_input[0] <= 'z' && _input[0] >= 'a')
+	auto byte = dynamic_cast<ByteMsg *>(_inputMsg);
+	if (NULL != byte)
 	{
-		UpperOut(_input);
+		std::string NextString = byte->content;
+		if (NextString[0] <= 'z' && NextString[0] >= 'a')
+		{
+			transform(NextString.begin(), NextString.end(), NextString.begin(), ::toupper);
+		}
+		
+		//调用发送函数
+		zinxkernel::zin_sendout(NextString, m_out);
 	}
-	else
-	{
-		//否则原样输出
-		OrigOut(_input);
-	}
-
+	
+	return nullptr;
 }
 
-void ProcessFunc::UpperOut(std::string _input)
+ZinxHandler * ProcessFunc::GetNext(ZinxMsg * _next_input)
 {
-	transform(_input.begin(), _input.end(), _input.begin(), ::toupper);
-	m_out->data_sendout(_input);
-}
-
-void ProcessFunc::OrigOut(std::string _input)
-{
-	m_out->data_sendout(_input);
+	return NULL;
 }

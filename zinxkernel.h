@@ -26,5 +26,6 @@ public:
 	{
 		return kernel;
 	}
+	static void zin_sendout(std::string _output, Ichannel *_pchannel);
 };
 

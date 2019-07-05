@@ -2,6 +2,7 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 #include <iostream>
+#include "ZinxHandler.h"
 
 using namespace std;
 
@@ -44,18 +45,16 @@ void zinxkernel::run()
 			if (0 != (astEvents[i].events & EPOLLIN))
 			{
 				//需要处理外部输入的数据
-				/*1.读出数据*/
 				auto pchannel = static_cast<Ichannel *> (astEvents[i].data.ptr);
-				auto content = pchannel->ReadFd();
-				/*2.处理数据*/
-				pchannel->data_process(content);
+				//触发处理责任链
+				sysIODicMsg dic(sysIODicMsg::IO_IN);
+				pchannel->handle(&dic);
 			}
 			if (0 != (astEvents[i].events & EPOLLOUT))
 			{
 				//需要向外输出的数据
 				auto pchannel = static_cast<Ichannel *> (astEvents[i].data.ptr);
 				pchannel->flushout();
-				//删掉输出方向的epoll监听
 				ModChannel_DelOut(pchannel);
 			}
 		}
@@ -95,4 +94,11 @@ void zinxkernel::ModChannel_DelOut(Ichannel * _pChannel)
 	stEvent.events = EPOLLIN;
 	stEvent.data.ptr = _pChannel;
 	epoll_ctl(m_epollFd, EPOLL_CTL_MOD, _pChannel->GetFd(), &stEvent);
+}
+
+void zinxkernel::zin_sendout(std::string _output, Ichannel * _pchannel)
+{
+	sysIODicMsg iodic(sysIODicMsg::IO_OUT);
+	ByteMsg byte(_output, iodic);
+	_pchannel->handle(&byte);
 }

@@ -20,12 +20,6 @@ int stdin_channel::GetFd()
 	return 0;
 }
 
-void stdin_channel::data_process(std::string _input)
-{
-	//将数据交给process_func类处理
-	m_proc->DataProcess(_input);
-}
-
 bool stdin_channel::init()
 {
 	return true;
@@ -33,6 +27,11 @@ bool stdin_channel::init()
 
 void stdin_channel::fini()
 {
+}
+
+ZinxHandler * stdin_channel::GetInputNextStage(ByteMsg * _byte)
+{
+	return m_proc;
 }
 
 std::string stdin_channel::ReadFd()
