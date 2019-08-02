@@ -2,14 +2,15 @@
 #include <string>
 #include "Ichannel.h"
 
+class FuncProcess;
 class stdin_channel:public Ichannel
 {
 public:
 	stdin_channel();
 	virtual ~stdin_channel();
 
-	/*存储输出所需的通道对象指针*/
-	Ichannel *m_output_channel = NULL;
+	/*存数据处理类对象的指针*/
+	FuncProcess *m_process = NULL;
 
 
 	// 通过 Ichannel 继承

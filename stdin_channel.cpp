@@ -1,6 +1,6 @@
 #include "stdin_channel.h"
 #include <iostream>
-
+#include "FuncProcess.h"
 
 stdin_channel::stdin_channel()
 {
@@ -18,8 +18,9 @@ int stdin_channel::WriteFd(std::string _output)
 
 bool stdin_channel::Process(std::string _input)
 {
-	/*处理：回显到标准输出*/
-	return m_output_channel->SendOut(_input);
+	/*处理：交给功能处理类处理*/
+
+	return m_process->DataProc(_input);
 }
 
 std::string stdin_channel::ReadFd()

@@ -35,12 +35,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AZinxHandler.h" />
+    <ClInclude Include="FuncProcess.h" />
     <ClInclude Include="Ichannel.h" />
     <ClInclude Include="kernel.h" />
     <ClInclude Include="stdin_channel.h" />
     <ClInclude Include="stdout_channel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AZinxHandler.cpp" />
+    <ClCompile Include="FuncProcess.cpp" />
     <ClCompile Include="Ichannel.cpp" />
     <ClCompile Include="kernel.cpp" />
     <ClCompile Include="main.cpp" />
