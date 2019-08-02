@@ -20,6 +20,7 @@ public:
 
 	virtual int GetFd() override;
 
-	virtual bool Process(std::string _input) override;
+	// Í¨¹ý Ichannel ¼Ì³Ð
+	virtual AZinxHandler * GetNextInputStage(message & _next) override;
 };
 

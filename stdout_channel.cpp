@@ -31,13 +31,9 @@ int stdout_channel::GetFd()
 	return 1;
 }
 
-bool stdout_channel::Process(std::string _input)
+AZinxHandler * stdout_channel::GetNextInputStage(message & _next)
 {
-	/*不收数据---》不存在处理数据*/
-	if (_input.size() <= 0)
-	{
-		return true;
-	}
-	return false;
+	/*通道用来输出，所以必然没有处理输入的下一个环节*/
+	return nullptr;
 }
 

@@ -16,11 +16,10 @@ int stdin_channel::WriteFd(std::string _output)
 	return 0;
 }
 
-bool stdin_channel::Process(std::string _input)
+AZinxHandler * stdin_channel::GetNextInputStage(message & _next)
 {
-	/*处理：交给功能处理类处理*/
-
-	return m_process->DataProc(_input);
+	/*返回功能处理类对象的指针*/
+	return m_process;
 }
 
 std::string stdin_channel::ReadFd()

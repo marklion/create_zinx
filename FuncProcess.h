@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
+#include "AZinxHandler.h"
 
 class Ichannel;
-class FuncProcess
+class FuncProcess:public AZinxHandler
 {
 public:
 	FuncProcess();
@@ -13,5 +14,9 @@ public:
 
 	/*数据处理函数*/
 	bool DataProc(std::string _data);
+
+	// 通过 AZinxHandler 继承
+	virtual message * internelHandle(message & _input) override;
+	virtual AZinxHandler * GetNext(message & _next) override;
 };
 

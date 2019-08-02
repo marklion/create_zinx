@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include "stdin_channel.h"
 #include <iostream>
+#include "AZinxHandler.h"
 
 using namespace std;
 
@@ -45,32 +46,14 @@ void kernel::run()
 			auto pchannel = static_cast<Ichannel *>(astEvent[i].data.ptr);
 			if (0 != (astEvent[i].events & EPOLLIN))
 			{
-				/*调用通道类的读取函数*/				
-				auto input = pchannel->ReadFd();
-
-				/*把读到的数据交给通道对象处理*/
-				if (false == pchannel->Process(input))
-				{
-					/*设定通道删除标记*/
-					pchannel->SetDelFlag();
-				}
+				IO_direction dic(IO_direction::IN);
+				pchannel->Handle(dic);
 			}
 			/*继续判断是否有out事件*/
 			if (0 != (EPOLLOUT & astEvent[i].events))
 			{
-				int write_len = pchannel->WriteFd(pchannel->output_buff);
-				/*若已发数据小于待发数据---》更新缓存*/
-				if (write_len !=  pchannel->output_buff.size())
-				{
-					/*弹出缓存中已发送的数据*/
-					pchannel->output_buff.erase(pchannel->output_buff.begin(), pchannel->output_buff.begin() + write_len);
-				}
-				else
-				{
-					/*若全部发送完成,去掉对EPOLLOUT事件的监听,清掉缓存*/
-					ChannelOutDel(pchannel);
-					pchannel->output_buff.clear();
-				}
+				IO_direction dic(IO_direction::OUT);
+				pchannel->Handle(dic);
 			}
 			/*若通道需要删除---》删掉*/
 			if (pchannel->NeedDel())

@@ -1,9 +1,26 @@
 #pragma once
-
+#include <string>
 /*消息类（数据）*/
 class message {
 public:
 	virtual ~message() {}
+};
+
+/*定义IO方向类----->被通道类处理*/
+class IO_direction :public message {
+public:
+	enum DIC {
+		IN, OUT
+	} m_dic;
+	IO_direction(DIC _dic):m_dic(_dic) {}
+};
+
+/*定义字节消息类---》被功能处理类处理-----》被通道类产生*/
+class ByteMsg :public IO_direction {
+public:
+	ByteMsg(IO_direction &super_dic):IO_direction(super_dic.m_dic) {}
+	ByteMsg(IO_direction &super_dic, std::string _data) :IO_direction(super_dic.m_dic),data(_data) {}
+	std::string data;
 };
 
 /*处理者类（环节）*/

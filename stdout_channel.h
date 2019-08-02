@@ -11,6 +11,8 @@ public:
 	virtual std::string ReadFd() override;
 	virtual int WriteFd(std::string _output) override;
 	virtual int GetFd() override;
-	virtual bool Process(std::string _input) override;
+
+	// Í¨¹ý Ichannel ¼Ì³Ð
+	virtual AZinxHandler * GetNextInputStage(message & _next) override;
 };
 
