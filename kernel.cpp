@@ -6,6 +6,8 @@
 
 using namespace std;
 
+kernel kernel::k;
+
 kernel::kernel()
 {
 }
@@ -58,16 +60,17 @@ void kernel::run()
 			{
 				int write_len = pchannel->WriteFd(pchannel->output_buff);
 				/*若已发数据小于待发数据---》更新缓存*/
-				if (write_len < pchannel->output_buff.size())
+				if (write_len !=  pchannel->output_buff.size())
 				{
 					/*弹出缓存中已发送的数据*/
 					pchannel->output_buff.erase(pchannel->output_buff.begin(), pchannel->output_buff.begin() + write_len);
 				}
-
-				/*若全部发送完成,去掉对EPOLLOUT事件的监听,清掉缓存*/
-				ChannelOutDel(pchannel);
-				pchannel->output_buff.clear();
-
+				else
+				{
+					/*若全部发送完成,去掉对EPOLLOUT事件的监听,清掉缓存*/
+					ChannelOutDel(pchannel);
+					pchannel->output_buff.clear();
+				}
 			}
 			/*若通道需要删除---》删掉*/
 			if (pchannel->NeedDel())
@@ -77,8 +80,6 @@ void kernel::run()
 				delete pchannel;
 			}
 		}
-
-
 	}
 }
 
@@ -127,5 +128,25 @@ void kernel::DelChannel(Ichannel * _pchannel)
 	
 	/*从channel_list里摘出通道对象*/
 	m_channel_list.remove(_pchannel);
+}
+
+void kernel::ChannelOutAdd(Ichannel * _pchannel)
+{
+	struct epoll_event my_event;
+	my_event.events = EPOLLIN|EPOLLOUT;
+	/*记录通道对象的地址到data的指针中*/
+	my_event.data.ptr = _pchannel;
+	/*修改通道的fd到为EPOLLOUT*/
+	epoll_ctl(m_epollFd, EPOLL_CTL_MOD, _pchannel->GetFd(), &my_event);
+}
+
+void kernel::ChannelOutDel(Ichannel * _pchannel)
+{
+	struct epoll_event my_event;
+	my_event.events = EPOLLIN;
+	/*记录通道对象的地址到data的指针中*/
+	my_event.data.ptr = _pchannel;
+	/*修改通道的fd到为EPOLLOUT*/
+	epoll_ctl(m_epollFd, EPOLL_CTL_MOD, _pchannel->GetFd(), &my_event);
 }
 

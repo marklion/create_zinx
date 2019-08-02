@@ -11,29 +11,15 @@ stdin_channel::~stdin_channel()
 {
 }
 
-std::string stdin_channel::ReadFd()
-{
-	return std::string();
-}
-
 int stdin_channel::WriteFd(std::string _output)
-{
-	return 0;
-}
-
-int stdin_channel::GetFd()
 {
 	return 0;
 }
 
 bool stdin_channel::Process(std::string _input)
 {
-	return false;
-}
-
-bool stdin_channel::SendOut(std::string _output)
-{
-	return false;
+	/*处理：回显到标准输出*/
+	return m_output_channel->SendOut(_input);
 }
 
 std::string stdin_channel::ReadFd()

@@ -12,6 +12,5 @@ public:
 	virtual int WriteFd(std::string _output) override;
 	virtual int GetFd() override;
 	virtual bool Process(std::string _input) override;
-	virtual bool SendOut(std::string _output) override;
 };
 

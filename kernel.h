@@ -7,10 +7,14 @@ class Ichannel;
 
 class kernel
 {
-public:
-	int m_epollFd = -1;
 	kernel();
 	virtual ~kernel();
+	static kernel k;
+public:
+	int m_epollFd = -1;
+	static kernel &GetInstance() {
+		return k;
+	}
 	/*重要职责---》循环等待，调度IO*/
 	void run();
 

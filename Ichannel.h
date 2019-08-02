@@ -9,7 +9,7 @@ public:
 	virtual int WriteFd(std::string _output) = 0;
 	virtual int GetFd() = 0;
 	virtual bool Process(std::string _input) = 0;
-	virtual bool SendOut(std::string _output) = 0;
+	bool SendOut(std::string _output);
 	Ichannel();
 	virtual ~Ichannel();
 	void SetDelFlag() {
