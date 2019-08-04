@@ -34,6 +34,16 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TCPChannel.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="zinx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TCPChannel.h" />
+    <ClInclude Include="zinx.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8dc86033-1ff6-4f25-b510-89aed79fb430}</ProjectGuid>
     <Keyword>Linux</Keyword>
