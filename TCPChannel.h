@@ -1,11 +1,18 @@
 #pragma once
 #include "zinx.h"
+#include <string>
 class TCPDataChannel :
 	public Ichannel
 {
 	int m_socket = -1;
+	/*标志位，真---》服务器TCP数据通道，否则----》客户端TCP数据通道*/
+	bool isServer = true;
+	std::string m_ip;
+	unsigned short m_port = 0;
 public:
-	TCPDataChannel(int _socket):m_socket(_socket) {}
+	TCPDataChannel(int _socket):m_socket(_socket),isServer(true) {}
+	/*静态多态：重载构造函数，此时构造的对象时客户端TCP通道*/
+	TCPDataChannel(std::string _ip, unsigned short _port):m_ip(_ip),m_port(_port), isServer(false) {}
 	virtual ~TCPDataChannel();
 
 	// 通过 Ichannel 继承

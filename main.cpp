@@ -28,6 +28,16 @@ public:
 	}
 };
 
+class my_tcp_client :public TCPDataChannel {
+public:
+	my_tcp_client(std::string _ip, unsigned short _port):TCPDataChannel(_ip, _port) {}
+	// 通过 TCPDataChannel 继承
+	virtual AZinxHandler * GetInputNextStage(BytesMsg & _oInput) override
+	{
+		return &mh;
+	}
+};
+
 class my_listenFact :public TCPConnFact {
 	// 通过 TCPConnFact 继承
 	virtual TCPDataChannel * CreateTcpDataChannel(int _fd) override
@@ -39,7 +49,9 @@ class my_listenFact :public TCPConnFact {
 int main()
 {
 	auto plistenChannel = new TCPListenChannel(54321, new my_listenFact());
+	auto pclientChannel = new my_tcp_client("192.168.64.1", 43210);
 	ZinxKernel::ZinxKernelInit();
 	ZinxKernel::Zinx_Add_Channel(*plistenChannel);
+	ZinxKernel::Zinx_Add_Channel(*pclientChannel);
 	ZinxKernel::Zinx_Run();
 }

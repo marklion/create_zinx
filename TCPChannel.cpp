@@ -7,7 +7,54 @@ TCPDataChannel::~TCPDataChannel()
 
 bool TCPDataChannel::Init()
 {
-	return true;
+	/*如果是否服务器数据通道---》啥都不干*/
+	if (isServer)
+	{
+		return true;
+	}
+
+	/*否则（客户端）----》socket，connect*/
+	bool bRet = false;
+	int iSocket = socket(AF_INET, SOCK_STREAM, 0);
+	if (iSocket >= 0)
+	{
+		struct sockaddr_in server_addr;
+		server_addr.sin_family = AF_INET;
+		server_addr.sin_port = htons(m_port);
+		server_addr.sin_addr.s_addr = inet_addr(m_ip.c_str());
+
+		/*设置socket为非阻塞*/
+		int flag = fcntl(iSocket, F_GETFL);
+		flag |= O_NONBLOCK;
+		fcntl(iSocket, F_SETFL, flag);
+
+		if (0 == connect(iSocket, (struct sockaddr *)(&server_addr), sizeof(server_addr)))
+		{
+			bRet = true;
+			m_socket = iSocket;
+		}
+		else
+		{
+			if (EINPROGRESS == errno)
+			{
+				/*正在连---》啥都不干*/
+				bRet = true;
+				m_socket = iSocket;
+			}
+			else
+			{
+				/*连接失败，关掉*/
+				perror("__FILE__:__function__:connect");
+				close(iSocket);
+			}
+		}
+	}
+	else
+	{
+		perror("__FILE__:__function__:socket");
+	}
+
+	return bRet;
 }
 
 bool TCPDataChannel::ReadFd(std::string & _input)
